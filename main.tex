@@ -7,7 +7,7 @@
 
 \documentclass{article}
 
-\usepackage{amssymb}
+\usepackage{amsmath,amssymb}
 \usepackage{enumerate}
 
 \newcommand{\lgap}{2pt}                             % Line gap
@@ -56,8 +56,15 @@
 \newcommand{\intersection}{\cap}
 \newcommand{\minus}{-}
 \newcommand{\powerset}{\mathcal{P}}
-%\DeclareMathOperator{\powerset}{\mathcal{P}}
+\newcommand{\Union}{\bigcup}
+\newcommand{\converse}{^\circ}
 
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\rng}{rng}
+
+\DeclareMathOperator{\simple}{simple}
+
+\newcommand{\cardinality}[1]{|#1|}
 
 \begin{document}
 \title{Theorems from De Brock's Foundations of Semantic Databases}
@@ -83,6 +90,86 @@ If $A$ and $B$ are sets, then:
     \item $A \minus B  =  \{ x : x \in A \land x \notin B \}$
     \item $A \times B  =  \{ x,y : x \in A \land x \in B : (x,y) \}$
     \item $\powerset.A  =  \{ X : X \within A \}$
+\end{enumerate}
+
+\paragraph{Definition 3:} If $m \in \mathbb{Z}$ and $n \in \mathbb{Z}$, then:
+\begin{enumerate}[(a)]
+    \item $[m .. n] = \{ k \in \mathbb{Z} : m \leq k \land k \leq n \}$
+    \item $[m .. n) = \{ k \in \mathbb{Z} : m \leq k \land k < n \}$
+    \item $[m .. ) = \{ k \in \mathbb{Z} : m \leq k \}$
+\end{enumerate}
+
+\paragraph{Definition 4:} If $n \in \mathbb{N} - \{0\}$
+\begin{enumerate}[(a)]
+    \item $Snn.n = [10^{n-1}..10^n-1]$
+    \item $Int.n = [-(10^{n-1})..10^n-1]$
+\end{enumerate}
+
+\paragraph{Definition 5:} If W is a set of sets, then:\[\bigcup W  =  \{ x : \exists(A : A \in W : x \in A) \}\]
+
+\paragraph{Lemma 1:}  If $A$ and $B$ are sets, then:
+\begin{enumerate}[(a)]
+    \item $\Union \emptyset = \emptyset$
+    \item $\Union \{A\} = A$
+    \item $\Union \{A, B\} = A \union B$
+\end{enumerate}
+
+\paragraph{Definition 6:}  If $R$ is a set of ordered pairs, then:
+\begin{enumerate}[(a)]
+    \item $\dom.R = \{ x,y : (x,y) \in R : x \}$
+    \item $\rng.R = \{ x,y : (x,y) \in R : y \}$
+    \item $R \converse = \{ x,y : (x,y) \in R : (y,x) \}$
+\end{enumerate}
+
+\paragraph{Lemma 2:} If $R$ and $P$ are sets of ordered pairs and $D \within R$, then:
+\begin{enumerate}[(a)]
+    \item $R \union P$, $R \intersection P$, $R \minus P$, $D$, and $R \converse$ are also sets of ordered pairs.
+    \item \begin{enumerate}[i.]
+        \item $\dom(R \union P) = \dom.R \union \dom.P$
+        \item $\rng(R \union P) = \rng.R \union \rng.P$
+    \end{enumerate}
+    \item \begin{enumerate}[i.]
+        \item $\dom(R \intersection P) \within \dom.R \intersection \dom.P$
+        \item $\rng(R \intersection P) \within \rng.R \intersection \rng.P$
+    \end{enumerate}
+    \item \begin{enumerate}[i.]
+        \item $\dom(R \minus P) \contains \dom.R \minus \dom.P$
+        \item $\rng(R \minus P) \contains \rng.R \minus \rng.P$
+    \end{enumerate}
+    \item \begin{enumerate}[i.]
+        \item $\dom.D \within \dom.R$
+        \item $\rng.D \within \rng.R$
+    \end{enumerate}
+    \item \begin{enumerate}[i.]
+        \item $\dom(R \converse) = \rng.R$
+        \item $\rng(R \converse) = \dom.R$
+    \end{enumerate}
+    \item \begin{enumerate}[i.]
+        \item $(R \union P)\converse = R\converse \union P\converse$
+        \item $(R \intersection P)\converse = R\converse \intersection P\converse$
+        \item $(R \minus P)\converse = R\converse \minus P\converse$
+        \item $(R \converse)\converse = R$
+    \end{enumerate}
+\end{enumerate}
+
+
+\subsection{Simple Relations}
+What De Brock calls a function is not a function at all: it is merely a simple (a.k.a deterministic) relation.  That convention is clumsy and I do not subscribe to it.  Instead I will use the naming conventions of Oliveira (after Freyd and Scedrov).
+
+\paragraph{Definition 7:} For $R$, a set of ordered pairs:\[ \simple.R  \equivs  \forall(x,y : (x,y) \in R : \forall(x',y' : (x',y') \in R : x = x' \impl y = y')) \]
+
+\paragraph{Lemma 3:} If $R$ and $S$ are simple relations, and $R \within S$, then:
+\begin{enumerate}[(a)]
+    \item $\simple.R$
+    \item \begin{enumerate}[i.]
+        \item $\simple(R \intersection S)$
+        \item $\simple(R \minus S)$
+    \end{enumerate}
+    \item $\cardinality{\rng.S} \leq \cardinality{\dom.S}$
+    \item \begin{enumerate}[i.]
+        \item $\simple.\emptyset$
+        \item $\dom.\emptyset = \rng.\emptyset = \emptyset$
+    \end{enumerate}
 \end{enumerate}
 
 \end{document}
